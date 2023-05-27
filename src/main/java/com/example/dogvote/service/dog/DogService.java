@@ -13,6 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,13 +33,14 @@ public class DogService {
         if (!request.getFile().isEmpty()) {
             try {
                 Dog dog = new Dog(request.getName(), request.getDescription());
-                dogRepository.save(dog);
 
-                String path = resource.getPath();
                 String filename = request.getFile().getOriginalFilename();
                 String fileExtension = filename.substring(filename.indexOf("."));
+                String path = dog.getName() + (int) (Math.random() * 100000) + fileExtension;
+                request.getFile().transferTo(new File(path));
 
-                request.getFile().transferTo(new File(resource.getPath() + dog.getId() + fileExtension));
+                dog.setPhotoUrl(path);
+                dogRepository.save(dog);
             } catch (IOException e){
                 e.printStackTrace();
             }

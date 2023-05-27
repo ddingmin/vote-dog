@@ -9,6 +9,7 @@ public class DogDetailResponse {
     private String photoUrl;
     private long voteCount;
 
+
     public DogDetailResponse(long id, String name, String description, String photoUrl, long voteCount) {
         this.id = id;
         this.name = name;

@@ -7,7 +7,7 @@ public class Dog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = null;
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private String name;
     private String description;
     @Column(name = "photo_url")
@@ -47,6 +47,10 @@ public class Dog {
 
     public long getVoteCount() {
         return voteCount;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public void addVoteCount(int count) {
