@@ -22,16 +22,14 @@ public class DogController {
     }
 
     @PostMapping("/dog")
-    public void saveDog(@RequestParam("info") DogCreateRequest request,
-                        @RequestPart("image") MultipartFile file) {
-        dogService.saveDog(request, file);
-
+    public void saveDog(DogCreateRequest request) {
+        dogService.saveDog(request);
     }
 
     @GetMapping("/dog")
     public List<DogResponse> getDogs(@RequestParam(value = "page", defaultValue = "0") int page,
                                      @RequestParam(value = "size", defaultValue = "10") int size) {
-        return dogService.getDogs();
+        return dogService.getDogs(page, size);
     }
 
     @GetMapping("/dog/detail")

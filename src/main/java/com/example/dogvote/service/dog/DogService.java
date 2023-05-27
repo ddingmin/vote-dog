@@ -7,6 +7,7 @@ import com.example.dogvote.dto.dog.request.DogVoteRequest;
 import com.example.dogvote.dto.dog.response.DogDetailResponse;
 import com.example.dogvote.dto.dog.response.DogResponse;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,22 +26,25 @@ public class DogService {
         this.dogRepository = dogRepository;
     }
 
-    public void saveDog(DogCreateRequest request, MultipartFile file) {
-        Dog dog = new Dog(request.getName(), request.getDescription());
-        dogRepository.save(dog);
-        if (!file.isEmpty()) {
+    public void saveDog(DogCreateRequest request) {
+        if (!request.getFile().isEmpty()) {
             try {
+                Dog dog = new Dog(request.getName(), request.getDescription());
+                dogRepository.save(dog);
+
                 String path = resource.getPath();
-                String filename = dog.getId() + file.getContentType();
-                file.transferTo(new File(path + filename));
+                String filename = request.getFile().getOriginalFilename();
+                String fileExtension = filename.substring(filename.indexOf("."));
+
+                request.getFile().transferTo(new File(resource.getPath() + dog.getId() + fileExtension));
             } catch (IOException e){
                 e.printStackTrace();
             }
         }
     }
 
-    public List<DogResponse> getDogs() {
-        return dogRepository.findAll().stream()
+    public List<DogResponse> getDogs(int page, int size) {
+        return dogRepository.findAll(PageRequest.of(page, size)).stream()
                 .map(DogResponse::new)
                 .collect(Collectors.toList());
     }

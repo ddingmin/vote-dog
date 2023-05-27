@@ -5,10 +5,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class DogCreateRequest {
     private String name;
     private String description;
+    private MultipartFile file;
 
-    public DogCreateRequest(String name, String description) {
+    public DogCreateRequest(String name, String description, MultipartFile file) {
         this.name = name;
         this.description = description;
+        this.file = file;
     }
 
     public String getName() {
@@ -16,5 +18,8 @@ public class DogCreateRequest {
     }
     public String getDescription() {
         return description;
+    }
+    public MultipartFile getFile() {
+        return file;
     }
 }
