@@ -1,24 +1,39 @@
 package com.example.dogvote.domain.dog;
 
+import javax.persistence.*;
+
+@Entity
 public class Dog {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id = null;
+    @Column(nullable = false, length = 255)
     private String name;
     private String description;
+    @Column(name = "photo_url")
     private String photoUrl;
-
-
-
     private long voteCount;
 
-    public Dog(String name, String description, String photoUrl) {
+    protected Dog() {}
+
+    public Dog(String name, String description) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException(String.format("잘못된 name(%s)이 들어왔습니다.", name));
         }
         this.name = name;
-        this.description = description;
-        this.photoUrl = photoUrl;
-        voteCount = 0;
+        if (description == null || description.isBlank()) {
+            this.description = "-";
+        }
+        else {
+            this.description = description;
+        }
+        this.photoUrl = "/" + this.id;
+        this.voteCount = 0;
     }
 
+    public Long getId() {
+        return id;
+    }
     public String getName() {
         return name;
     }
@@ -32,5 +47,9 @@ public class Dog {
 
     public long getVoteCount() {
         return voteCount;
+    }
+
+    public void addVoteCount(int count) {
+        this.voteCount = this.voteCount + count;
     }
 }

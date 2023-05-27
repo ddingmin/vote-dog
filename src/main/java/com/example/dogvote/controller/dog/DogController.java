@@ -6,6 +6,7 @@ import com.example.dogvote.dto.dog.response.DogDetailResponse;
 import com.example.dogvote.dto.dog.response.DogResponse;
 import com.example.dogvote.service.dog.DogService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -15,19 +16,22 @@ public class DogController {
 
     private final DogService dogService;
 
+
     public DogController(DogService dogService) {
         this.dogService = dogService;
     }
 
     @PostMapping("/dog")
-    public void saveDog(@RequestBody DogCreateRequest request) {
-        dogService.saveDog(request);
+    public void saveDog(@RequestParam("info") DogCreateRequest request,
+                        @RequestPart("image") MultipartFile file) {
+        dogService.saveDog(request, file);
+
     }
 
     @GetMapping("/dog")
     public List<DogResponse> getDogs(@RequestParam(value = "page", defaultValue = "0") int page,
                                      @RequestParam(value = "size", defaultValue = "10") int size) {
-        return dogService.getDogs(page, size);
+        return dogService.getDogs();
     }
 
     @GetMapping("/dog/detail")
@@ -41,7 +45,7 @@ public class DogController {
     }
 
     @GetMapping("/test")
-    public String getIp(HttpServletRequest request){
+    public String getIp(HttpServletRequest request) {
         String clientIP = request.getRemoteAddr();
         String userAgent = request.getHeader("User-Agent");
         return "Client IP: " + clientIP + ", User-Agent: " + userAgent;

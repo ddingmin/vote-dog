@@ -1,5 +1,7 @@
 package com.example.dogvote.dto.dog.response;
 
+import com.example.dogvote.domain.dog.Dog;
+
 public class DogDetailResponse {
     private long id;
     private String name;
@@ -13,6 +15,14 @@ public class DogDetailResponse {
         this.description = description;
         this.photoUrl = photoUrl;
         this.voteCount = voteCount;
+    }
+
+    public DogDetailResponse(Dog dog) {
+        this.id = dog.getId();
+        this.name = dog.getName();
+        this.description = dog.getDescription();
+        this.photoUrl = dog.getPhotoUrl();
+        this.voteCount = dog.getVoteCount();
     }
 
     public long getId() {
