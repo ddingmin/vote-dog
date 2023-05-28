@@ -5,8 +5,8 @@ import com.example.dogvote.dto.dog.request.DogVoteRequest;
 import com.example.dogvote.dto.dog.response.DogDetailResponse;
 import com.example.dogvote.dto.dog.response.DogResponse;
 import com.example.dogvote.service.dog.DogService;
+import com.example.dogvote.service.dog.KafkaProducerService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -14,11 +14,15 @@ import java.util.List;
 @RestController
 public class DogController {
 
+
     private final DogService dogService;
+    private final KafkaProducerService kafkaProducerService;
 
 
-    public DogController(DogService dogService) {
+    public DogController(DogService dogService, KafkaProducerService kafkaProducerService) {
         this.dogService = dogService;
+        this.kafkaProducerService = kafkaProducerService;
+
     }
 
     @PostMapping("/dog")
@@ -39,6 +43,7 @@ public class DogController {
 
     @PatchMapping("/dog/vote")
     public void voteDog(@RequestBody DogVoteRequest request) {
+//        kafkaProducerService.sendMessage(new DogVoteEvent(request.getId(), request.getVote()));
         dogService.voteDog(request);
     }
 
