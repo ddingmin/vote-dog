@@ -1,21 +1,17 @@
 package com.example.dogvote.service.dog;
 
 import com.example.dogvote.domain.dog.Dog;
-import com.example.dogvote.repository.dog.DogRepository;
 import com.example.dogvote.dto.dog.request.DogCreateRequest;
 import com.example.dogvote.dto.dog.request.DogVoteRequest;
 import com.example.dogvote.dto.dog.response.DogDetailResponse;
 import com.example.dogvote.dto.dog.response.DogResponse;
+import com.example.dogvote.repository.dog.DogRepository;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Time;
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,7 +58,12 @@ public class DogService {
     public void voteDog(DogVoteRequest request) {
         Dog dog = dogRepository.findById(request.getId())
                 .orElseThrow(IllegalArgumentException::new);
-        dog.addVoteCount(1);
+        if (request.getVote()){
+            dog.addVoteCount(1);
+        }
+        else {
+            dog.addVoteCount(-1);
+        }
         dogRepository.save(dog);
     }
 }
