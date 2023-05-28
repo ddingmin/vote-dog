@@ -1,9 +1,9 @@
 package com.example.dogvote.dto.dog.response;
 
 import com.example.dogvote.domain.dog.Dog;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class DogResponse {
     private long id;
     private String name;

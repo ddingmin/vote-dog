@@ -1,9 +1,16 @@
 package com.example.dogvote.domain.dog;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Dog {
+@NoArgsConstructor    // 기본 생성자 추가
+@AllArgsConstructor
+//@RedisHash("dog")
+public class Dog implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = null;
@@ -13,8 +20,6 @@ public class Dog {
     @Column(name = "photo_url")
     private String photoUrl;
     private long voteCount;
-
-    protected Dog() {}
 
     public Dog(String name, String description) {
         if (name == null || name.isBlank()) {

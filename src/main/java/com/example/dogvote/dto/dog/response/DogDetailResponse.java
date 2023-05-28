@@ -1,7 +1,9 @@
 package com.example.dogvote.dto.dog.response;
 
 import com.example.dogvote.domain.dog.Dog;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor // 캐시 데이터 전송을 위한 빈 생성자
 public class DogDetailResponse {
     private long id;
     private String name;
